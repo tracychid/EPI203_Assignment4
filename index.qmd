@@ -1,0 +1,25 @@
+---
+title: EPI203_Assignment4_ReproducibleReport
+authors: 
+  - name: Tracy Chidyausiku
+    affiliation: Stanford University
+    roles: conception, study design, analysis, writing and editing
+    corresponding: true
+bibliography: references.bib
+---
+
+## Introduction
+
+This is a simple placeholder for the manuscript's main document [@knuth84].
+
+```{r}
+1 + 1
+```
+
+## Methods
+
+## Results
+
+## Discussion
+
+## Reproducibility
