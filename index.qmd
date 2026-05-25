@@ -1,5 +1,5 @@
 ---
-title: EPI203_Assignment4_ReproducibleReport
+title: A cross-sectional observational study on the impact of cost on cardiac events in adults using simulated data
 authors: 
   - name: Tracy Chidyausiku
     affiliation: Stanford University
@@ -8,17 +8,101 @@ authors:
 bibliography: references.bib
 ---
 
+```{r, load libraries}
+#| include: false
+
+library(tidyverse)
+library(here)
+library(tinytex)
+library(table1)
+library(kableExtra)
+library(webshot2)
+library(gtsummary)
+```
+
 ## Introduction
 
-This is a simple placeholder for the manuscript's main document [@knuth84].
+In the United States, the overwhelming majority of adults experiencing cardiac events fall disproportionately on individuals experiencing poverty (low to very low income) on the county and federal levels.
 
-```{r}
-1 + 1
-```
+- Explain the scientific background and rationale for the investigation being reported
+
+- State specific objectives, including any prespecified hypotheses
 
 ## Methods
 
+- Present key elements of study design early in the paper
+
+- Describe the setting, locations, and relevant dates, including periods of recruitment, exposure, follow-up, and data collection
+
+- Give the eligibility criteria, and the sources and methods of selection of participants
+
+- Clearly define all outcomes, exposures, predictors, potential confounders, and effect modifiers. Give diagnostic criteria, if applicable
+
+- For each variable of interest, give sources of data and details of methods of assessment (measurement). Describe comparability of assessment methods if there is more than one group
+
+- Describe any efforts to address potential sources of bias
+
+### Dataset
+
+```{r, load libraries and dataset}
+#| include: false
+
+# load dataset
+synthetic_df <- read_csv(here("raw-data", "cohort.csv"))
+
+# check for any missingness
+sum(is.na(synthetic_df))
+
+# visualize distribution of continuous variables
+hist(synthetic_df$age)
+hist(synthetic_df$cost)
+```
+
+### Study Population
+
+```{r, Table 1}
+#| echo: false
+
+# Make binary variables factors
+synthetic_df$female <- factor(synthetic_df$female, levels=c(0,1), labels=c("Male", "Female"))
+synthetic_df$smoke <- factor(synthetic_df$smoke, levels=c(0,1), labels=c("No Smoke", "Smoke"))
+synthetic_df$cardiac <- factor(synthetic_df$cardiac, levels=c(0,1), labels=c("No Cardiac", "Cardiac"))
+
+# Create table labels
+label(synthetic_df$female) <- "Sex"
+label(synthetic_df$smoke) <- "Smoke"
+label(synthetic_df$cost) <- "Cost"
+label(synthetic_df$age) <- "Age"
+
+# create table 1
+synthetic_df %>% 
+  tbl_summary(by = cardiac) %>% 
+  add_p() %>% 
+  add_overall() %>% 
+  modify_caption("**Table 1. Patient Characteristics**") %>% 
+  bold_labels()
+
+# Save as PNG
+#save_kable(tableOne, file = "table1.png")
+```
+
+### Exposure
+
+### Outcome
+
+### Statistical Analysis
+
+Logistic regression was used to compute the association between cost and cardiac arrest. Adjusted logistic regression was pursued to study the association of interest controlling for key confounders including age, smoking, and gender.
+
+$$Y_i = B$$
+
+```{r, table 2}
+
+```
+
 ## Results
+
+Descriptive analysis showcased 5.5% prevalence of cardiac event (N = 275) across the 5,000 study observations with 12% (N = 33) females and 88% (N = 242) males experiencing cardiac events. Individuals who experienced a cardiac event had an average age of 46.4 (SD = 16.2) and an average cost of 10,200 (SD = 427). Using logistic regression, our main study question revealed a 1% increase in the risk for cardiac event with a one-unit increase in cost. Adjusted odds ratios showed smoking as protective (OR = 0.05, CI = 0.03, 0.09), but this may be driven to the imbalance in smoking and rates of cardiac events in females compared to males who make up 88% of cardiac events in our study.
 
 ## Discussion
 
