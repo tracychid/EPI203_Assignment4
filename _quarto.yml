@@ -4,7 +4,10 @@ project:
 manuscript:
   article: index.qmd
 
-format:
+format: 
+  pdf:
+    geometry:
+      - margin=0.75in
   html:
     comments:
       hypothesis: true
