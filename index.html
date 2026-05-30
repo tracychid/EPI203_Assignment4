@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="quarto-1.9.37" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+
+<title>A cross-sectional observational study on the impact of cost on cardiac events in adults using simulated data</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+<!-- htmldependencies:E3FAD763 -->
+<script async src="https://hypothes.is/embed.js"></script>
+<script>
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    document.body.classList.add('hypothesis-enabled');
+  });
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <div id="quarto-toc-target"></div>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default toc-left">
+  <div class="quarto-title-banner">
+    <div class="quarto-title column-body">
+      <h1 class="title">A cross-sectional observational study on the impact of cost on cardiac events in adults using simulated data</h1>
+          </div>
+
+    
+    <div class="quarto-title-meta-container">
+      <div class="quarto-title-meta-column-start">
+            <div class="quarto-title-meta-author">
+          <div class="quarto-title-meta-heading">Author</div>
+          <div class="quarto-title-meta-heading">Affiliation</div>
+          
+                <div class="quarto-title-meta-contents">
+            <p class="author">Tracy Chidyausiku </p>
+          </div>
+                <div class="quarto-title-meta-contents">
+                    <p class="affiliation">
+                        Stanford University
+                      </p>
+                  </div>
+                    </div>
+        
+        <div class="quarto-title-meta">
+
+                      
+          
+                
+              </div>
+      </div>
+      <div class="quarto-title-meta-column-end quarto-other-formats-target">
+      </div>
+    </div>
+
+
+
+    <div class="quarto-other-links-text-target">
+    </div>  </div>
+</header>
+
+  
+
+<nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction">Introduction</a></li>
+  <li><a href="#methods" id="toc-methods">Methods</a>
+  <ul>
+  <li><a href="#dataset" id="toc-dataset">Dataset</a></li>
+  <li><a href="#study-population" id="toc-study-population">Study Population</a></li>
+  <li><a href="#study-variables-and-outcome" id="toc-study-variables-and-outcome">Study Variables and Outcome</a></li>
+  <li><a href="#statistical-analysis" id="toc-statistical-analysis">Statistical Analysis</a></li>
+  </ul></li>
+  <li><a href="#results" id="toc-results">Results</a>
+  <ul>
+  <li><a href="#population-demographics" id="toc-population-demographics">Population Demographics</a></li>
+  <li><a href="#prevalence-and-odds-ratios-for-cardiac-event" id="toc-prevalence-and-odds-ratios-for-cardiac-event">Prevalence and Odds Ratios for Cardiac Event</a></li>
+  </ul></li>
+  <li><a href="#discussion" id="toc-discussion">Discussion</a></li>
+  <li><a href="#generative-ai-statement" id="toc-generative-ai-statement">Generative AI Statement</a></li>
+  </ul>
+</nav>
+<section id="introduction" class="level2">
+<h2>Introduction</h2>
+<p>In the United States, the overwhelming majority of adults experiencing cardiac events fall disproportionately on individuals experiencing poverty (low to very low income) on the county and federal levels. Cardiac events are closely linked with ongoing cardiovascular diseases in patients and are the leading cause of death in the United States. As a result, rates in cardiovascular disease and death in low to very low income individuals have increased at an alarming rate in recent years and are only expected to more than triple in the next five years. To better understand the social mechanisms, primarily financial factors like medical costs, that impact an individual’s ability to prevent or delay cardiac events we used synthetic data to measure how cost influences cardiac events.</p>
+<p>The study objective is to measure how cost of care influences cardiac events in the presence of controlling for biological and social factors including age, sex, and smoking. We hypothesize that higher medical costs are associated with an increase in cardiac events when controlling for age, sex, and smoking.</p>
+</section>
+<section id="methods" class="level2">
+<h2>Methods</h2>
+<p>A cross-sectional study using synthetic data from the Department of Health Policy at Stanford University was conducted to investigate how medical costs impact cardiac events in adult patients.</p>
+<section id="dataset" class="level3">
+<h3>Dataset</h3>
+<p>Data was used from a synthetic data set created by the Health Policy Department at Stanford University (Sherri Rose, PhD). The data are synthetic and developed in 2026 trained using de-identified health data from a national dataset of adult (18 years and older) cardiac hospitalizations in the United States from 2025. The synthetic dataset is publicly accessible (<a href="https://github.com/MethodsForReproducibleHealthResearch/Assignment2" class="uri">https://github.com/MethodsForReproducibleHealthResearch/Assignment2</a>). The dataset contains 5,000 synthetic adult health records with variables including medical costs, cardiac events, sex, age, and smoking status.</p>
+</section>
+<section id="study-population" class="level3">
+<h3>Study Population</h3>
+<p>The synthetic data consists of a 5,000 observations with no missing data. The dataset was evaluated in its entirety, with no exclusions based on outliers or key variables for a complete-case analysis. The final analysis included all 5,000 observations originally developed synthetically in the dataset.</p>
+</section>
+<section id="study-variables-and-outcome" class="level3">
+<h3>Study Variables and Outcome</h3>
+<p>Cardiac events may include any sudden, serious problem impacting the cardiovascular system, particularly the heart. All synthetic data were developed based on the data collection and observations in a national dataset of adult (18 years and older) cardiac hospitalizations in the United States from 2025. Based on the national dataset, cardiac events were pre-defined and measured in the dataset as a binary variable (e.g., yes or no if a cardiac event was observed in the patient) based on ICD-9 and ICD-10 codes coded by the care team or hospital. In this study, the dependent variable was cardiac events and was measured using the synthetic dataset’s pre-defined and measured reports as stated above. The primary independent variable in this study was medical costs. Based on the national dataset, medical costs were collected and measured in the dataset for each observation. Medical costs were calculated by the hospital billing team based on the type of care received given the particular cardiac event experienced by the patient at the point-of-care and time received. Potential confounders include sex, age, and gender. All potential confounders were self-reported by patients for hospital system record collections and are routinely collected during admission to hospital stays or to receive care.</p>
+<p>Biological and behavioral health factors (sex, age, smoking) were selected a priori based on prior research and established causal diagrams in literature showing the association and influence of these factors on financial factors and cardiac events. All study variables were assessed in their original, individual item level. No variables were combined into composite indices, nor were any continuous variables transformed into categorical groupings. We assessed biases such as selection bias in the dependent, independent, and potential confounders using Pearson’s Chi-squared test and Wilcoxon rank sum test and visually assessed spread of potential confounders using histograms.</p>
+</section>
+<section id="statistical-analysis" class="level3">
+<h3>Statistical Analysis</h3>
+<p>We used logistic regression (using R’s <em>stats</em> built-in package) to evaluate the odds ratios and 95% confidence intervals (CI) for the relationship between medical costs and cardiac events controlling for sex, age, and smoking. Reference groups for categorical variables sex and smoking include male and non-smoker, respectively. Logistic regression is a classification algorithm that models the log-odds of an event occurring by optimizing coefficients using maximum likelihood estimation. The logistic regression hypothesis is modeled by predictors <span class="math inline">\(x\)</span> and coefficients <span class="math inline">\(\theta\)</span>: <span class="math display">\[h_{\theta} = \frac{1}{1 + e^{-\theta^Tx}}\]</span></p>
+<p>For this study, our logistic regression equation was modeled with cardiac event (yes or no) as the dependent variable and medical cost as the primary independent variable. To control for confounding, our model also adjusted for sex, age, and smoking. Specifically, let <span class="math inline">\(Y\)</span> represent a given outcome for an individual <span class="math inline">\(i\)</span>:</p>
+<p><span class="math display">\[Y_i = \alpha + \beta_1Cost_{1,i} + \beta_2Sex_{2,i} + \beta_3Smoke_{3,i} + \beta_4Age_{4,i}\]</span></p>
+<p><span class="math inline">\(Cost\)</span> is the indicator for medical cost related to the observed cardiac event, <span class="math inline">\(Sex\)</span> is an indicator for the self-reported sex (male or female) by the individual, <span class="math inline">\(Smoke\)</span> is the indicator for the self-reported smoking status of the patient when the data were collected, and <span class="math inline">\(Age\)</span> is the self-reported age of the patient. Each indicator is calculated for every individual <span class="math inline">\(i\)</span> in the dataset. All analyses were performed in RStudio (Version 2026.04.0+526).</p>
+</section>
+</section>
+<section id="results" class="level2">
+<h2>Results</h2>
+<section id="population-demographics" class="level3">
+<h3>Population Demographics</h3>
+<p>Among the 5,000 individuals in our study, the majority of participants self-reported as non-smokers (N = 4,354, 87%), female (N = 2,866, 57%) and had an average age of 45 and average medical cost of $9,376. In the overal study population, we observed an unequal balance in self-reported smoking, but a generally balanced self-report in sex (Table 1). Potential confounders smoke, sex, and cost were statistically significant with p &lt; 0.001. Age groups between those who experienced cardiac events and did not experience cardiac events were similar interquartile ranges and thus a p=0.11.</p>
+<div class="cell">
+<div id="tbl-patients" class="cell quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-tbl">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-patients-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 1: Patient Characteristics
+</figcaption>
+<div aria-describedby="tbl-patients-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div id="rjiiplbcfp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#rjiiplbcfp table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#rjiiplbcfp thead, #rjiiplbcfp tbody, #rjiiplbcfp tfoot, #rjiiplbcfp tr, #rjiiplbcfp td, #rjiiplbcfp th {
+  border-style: none;
+}
+
+#rjiiplbcfp p {
+  margin: 0;
+  padding: 0;
+}
+
+#rjiiplbcfp .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#rjiiplbcfp .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#rjiiplbcfp .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#rjiiplbcfp .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#rjiiplbcfp .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#rjiiplbcfp .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rjiiplbcfp .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#rjiiplbcfp .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#rjiiplbcfp .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#rjiiplbcfp .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#rjiiplbcfp .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#rjiiplbcfp .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#rjiiplbcfp .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#rjiiplbcfp .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#rjiiplbcfp .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#rjiiplbcfp .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#rjiiplbcfp .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#rjiiplbcfp .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#rjiiplbcfp .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rjiiplbcfp .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#rjiiplbcfp .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#rjiiplbcfp .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#rjiiplbcfp .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rjiiplbcfp .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#rjiiplbcfp .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#rjiiplbcfp .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rjiiplbcfp .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rjiiplbcfp .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#rjiiplbcfp .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rjiiplbcfp .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#rjiiplbcfp .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rjiiplbcfp .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#rjiiplbcfp .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rjiiplbcfp .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#rjiiplbcfp .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rjiiplbcfp .gt_left {
+  text-align: left;
+}
+
+#rjiiplbcfp .gt_center {
+  text-align: center;
+}
+
+#rjiiplbcfp .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#rjiiplbcfp .gt_font_normal {
+  font-weight: normal;
+}
+
+#rjiiplbcfp .gt_font_bold {
+  font-weight: bold;
+}
+
+#rjiiplbcfp .gt_font_italic {
+  font-style: italic;
+}
+
+#rjiiplbcfp .gt_super {
+  font-size: 65%;
+}
+
+#rjiiplbcfp .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#rjiiplbcfp .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#rjiiplbcfp .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#rjiiplbcfp .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#rjiiplbcfp .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#rjiiplbcfp .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#rjiiplbcfp .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#rjiiplbcfp .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#rjiiplbcfp div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table cell caption-top" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="gt_col_headings header">
+<th id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Characteristic</strong></th>
+<th id="stat_0" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>Overall</strong><br />
+N = 5,000<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+<th id="stat_1" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>No Cardiac</strong><br />
+N = 4,725<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+<th id="stat_2" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>Cardiac</strong><br />
+N = 275<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+<th id="p.value" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>p-value</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span></th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">Smoke</td>
+<td class="gt_row gt_center" headers="stat_0"><br />
+</td>
+<td class="gt_row gt_center" headers="stat_1"><br />
+</td>
+<td class="gt_row gt_center" headers="stat_2"><br />
+</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">    No Smoke</td>
+<td class="gt_row gt_center" headers="stat_0">4,354 (87%)</td>
+<td class="gt_row gt_center" headers="stat_1">4,212 (89%)</td>
+<td class="gt_row gt_center" headers="stat_2">142 (52%)</td>
+<td class="gt_row gt_center" headers="p.value"><br />
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">    Smoke</td>
+<td class="gt_row gt_center" headers="stat_0">646 (13%)</td>
+<td class="gt_row gt_center" headers="stat_1">513 (11%)</td>
+<td class="gt_row gt_center" headers="stat_2">133 (48%)</td>
+<td class="gt_row gt_center" headers="p.value"><br />
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">Sex</td>
+<td class="gt_row gt_center" headers="stat_0"><br />
+</td>
+<td class="gt_row gt_center" headers="stat_1"><br />
+</td>
+<td class="gt_row gt_center" headers="stat_2"><br />
+</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">    Male</td>
+<td class="gt_row gt_center" headers="stat_0">2,134 (43%)</td>
+<td class="gt_row gt_center" headers="stat_1">1,892 (40%)</td>
+<td class="gt_row gt_center" headers="stat_2">242 (88%)</td>
+<td class="gt_row gt_center" headers="p.value"><br />
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">    Female</td>
+<td class="gt_row gt_center" headers="stat_0">2,866 (57%)</td>
+<td class="gt_row gt_center" headers="stat_1">2,833 (60%)</td>
+<td class="gt_row gt_center" headers="stat_2">33 (12%)</td>
+<td class="gt_row gt_center" headers="p.value"><br />
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">Age</td>
+<td class="gt_row gt_center" headers="stat_0">45 (31, 59)</td>
+<td class="gt_row gt_center" headers="stat_1">45 (31, 59)</td>
+<td class="gt_row gt_center" headers="stat_2">47 (31, 61)</td>
+<td class="gt_row gt_center" headers="p.value">0.11</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label" style="font-weight: bold">Cost</td>
+<td class="gt_row gt_center" headers="stat_0">9,376 (9,090, 9,676)</td>
+<td class="gt_row gt_center" headers="stat_1">9,350 (9,072, 9,622)</td>
+<td class="gt_row gt_center" headers="stat_2">10,230 (9,910, 10,506)</td>
+<td class="gt_row gt_center" headers="p.value">&lt;0.001</td>
+</tr>
+</tbody><tfoot>
+<tr class="gt_footnotes odd">
+<td colspan="5" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> n (%); Median (Q1, Q3)</td>
+</tr>
+<tr class="gt_footnotes even">
+<td colspan="5" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> Pearson’s Chi-squared test; Wilcoxon rank sum test</td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The study population was mostly imbalanced across those who did and did not experience cardiac events. For example, among individuals who did not experience a cardiac event 87% were non-smokers compared to 13%. Similarly, among individuals who did experience a cardiac event 88% were men and 12% were women. Individuals who experienced a cardiac event had an average medical cost of $10,230 compared to an average medical cost of $9,350 among individuals who did not experience a cardiac event. This resulted in an absolute difference of $880 between the two groups, which depending on socioeconomic factors can be a significant difference. We also observed a steady positive trend in cost by age in individuals who experienced a cardiac event during our study period (Figure 1).</p>
+<div id="cell-fig-cost-trend" class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-cost-trend" class="quarto-float quarto-figure quarto-figure-center" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-cost-trend-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="trend_plot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure 1: Cost Trend by Age Among Individuals with Cardiac Events"><img src="trend_plot.png" class="img-fluid quarto-figure quarto-figure-center" /></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cost-trend-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure 1: Cost Trend by Age Among Individuals with Cardiac Events
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="prevalence-and-odds-ratios-for-cardiac-event" class="level3">
+<h3>Prevalence and Odds Ratios for Cardiac Event</h3>
+<p>In this study population, the overall prevalence of a cardiac event was 5.5% (N = 275). Of the individuals who did experience a cardiac event, 52% (N = 142) self-reported as ever smokers and 88% (N = 242) were male. The average age of those who experienced a cardiac event was 47 years and the average medical cost was $10,230 (Table 1).</p>
+<div class="cell">
+<div id="tbl-outcomes" class="cell quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-tbl">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-outcomes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 2: Multivariable logistic regression of cost and cardiac events adjusted for sex, smoke, and age.
+</figcaption>
+<div aria-describedby="tbl-outcomes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div id="kqwllkufir" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#kqwllkufir table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#kqwllkufir thead, #kqwllkufir tbody, #kqwllkufir tfoot, #kqwllkufir tr, #kqwllkufir td, #kqwllkufir th {
+  border-style: none;
+}
+
+#kqwllkufir p {
+  margin: 0;
+  padding: 0;
+}
+
+#kqwllkufir .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#kqwllkufir .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#kqwllkufir .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#kqwllkufir .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#kqwllkufir .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#kqwllkufir .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kqwllkufir .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#kqwllkufir .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#kqwllkufir .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#kqwllkufir .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#kqwllkufir .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#kqwllkufir .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#kqwllkufir .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#kqwllkufir .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#kqwllkufir .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#kqwllkufir .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#kqwllkufir .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#kqwllkufir .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#kqwllkufir .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kqwllkufir .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#kqwllkufir .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#kqwllkufir .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#kqwllkufir .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kqwllkufir .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#kqwllkufir .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#kqwllkufir .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kqwllkufir .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kqwllkufir .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#kqwllkufir .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kqwllkufir .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#kqwllkufir .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kqwllkufir .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#kqwllkufir .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kqwllkufir .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#kqwllkufir .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kqwllkufir .gt_left {
+  text-align: left;
+}
+
+#kqwllkufir .gt_center {
+  text-align: center;
+}
+
+#kqwllkufir .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#kqwllkufir .gt_font_normal {
+  font-weight: normal;
+}
+
+#kqwllkufir .gt_font_bold {
+  font-weight: bold;
+}
+
+#kqwllkufir .gt_font_italic {
+  font-style: italic;
+}
+
+#kqwllkufir .gt_super {
+  font-size: 65%;
+}
+
+#kqwllkufir .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#kqwllkufir .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#kqwllkufir .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#kqwllkufir .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#kqwllkufir .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#kqwllkufir .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#kqwllkufir .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#kqwllkufir .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#kqwllkufir div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table cell caption-top" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="gt_col_headings header">
+<th id="label" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Characteristic</strong></th>
+<th id="estimate" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>OR</strong></th>
+<th id="conf.low" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>95% CI</strong></th>
+<th id="p.value" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>p-value</strong></th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">Cost</td>
+<td class="gt_row gt_center" headers="estimate">1.01</td>
+<td class="gt_row gt_center" headers="conf.low">1.01, 1.01</td>
+<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">&lt;0.001</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">Sex</td>
+<td class="gt_row gt_center" headers="estimate"><br />
+</td>
+<td class="gt_row gt_center" headers="conf.low"><br />
+</td>
+<td class="gt_row gt_center" headers="p.value">0.3</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label" style="font-style: italic">    Male</td>
+<td class="gt_row gt_center" headers="estimate">—</td>
+<td class="gt_row gt_center" headers="conf.low">—</td>
+<td class="gt_row gt_center" headers="p.value"><br />
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label" style="font-style: italic">    Female</td>
+<td class="gt_row gt_center" headers="estimate">1.35</td>
+<td class="gt_row gt_center" headers="conf.low">0.80, 2.24</td>
+<td class="gt_row gt_center" headers="p.value"><br />
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label">Smoke</td>
+<td class="gt_row gt_center" headers="estimate"><br />
+</td>
+<td class="gt_row gt_center" headers="conf.low"><br />
+</td>
+<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">&lt;0.001</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label" style="font-style: italic">    No Smoke</td>
+<td class="gt_row gt_center" headers="estimate">—</td>
+<td class="gt_row gt_center" headers="conf.low">—</td>
+<td class="gt_row gt_center" headers="p.value"><br />
+</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="label" style="font-style: italic">    Smoke</td>
+<td class="gt_row gt_center" headers="estimate">0.05</td>
+<td class="gt_row gt_center" headers="conf.low">0.03, 0.09</td>
+<td class="gt_row gt_center" headers="p.value"><br />
+</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="label">Age</td>
+<td class="gt_row gt_center" headers="estimate">0.85</td>
+<td class="gt_row gt_center" headers="conf.low">0.83, 0.87</td>
+<td class="gt_row gt_center" headers="p.value" style="font-weight: bold">&lt;0.001</td>
+</tr>
+</tbody><tfoot>
+<tr class="gt_sourcenotes odd">
+<td colspan="4" class="gt_sourcenote">Abbreviations: CI = Confidence Interval, OR = Odds Ratio</td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>In our adjusted logistic regression model, we observed a 1% increase in odds for a cardiac event (OR: 1.01, 95% CI: 1.01, 1.01) for every $1 increase in cost (Table 2). Additionally, for two key confounders, we observed a significant finding in increased odds: individuals who self-reported having ever smoked had 95% lower odds of a cardiac event compared to non-smokers and each increase in year in age was associated with 15% lower odds of a cardiac event. Lastly, we observed a 35% increase in odds for a cardiac event in females compared to males, but the confidence interval included the null (Figure 2).</p>
+<div id="cell-fig-forest-plot" class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-forest-plot" class="quarto-float quarto-figure quarto-figure-center" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-forest-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="forrest_plot.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure 2: Adjusted odds ratios of cost and cardiac events adjusted for sex, smoke, and age."><img src="forrest_plot.png" class="img-fluid quarto-figure quarto-figure-center" /></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-forest-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure 2: Adjusted odds ratios of cost and cardiac events adjusted for sex, smoke, and age.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="discussion" class="level2">
+<h2>Discussion</h2>
+<p>In this study, we found that cost is associated with an increase in odds for cardiac events. Biological and behavioral health factors were associated with the relationship of interest; specifically, sex and identifying as female were associated with increased odds in experiencing a cardiac event and smoking was associated with lower odds of experiencing a cardiac event. Our finding that smoking was associated with lower odds of cardiac events is counter to current literature which has strongly established a causal relationship in smoking increasing the risk for cardiac events. We believe that our findings that smoking is protective (OR = 0.05, CI = 0.03, 0.09) may be driven by the imbalance in smoking and rates of cardiac events in females compared to males who make up 88% of cardiac events in our study. Additionally, the contractual findings we observed compared to literature may also be driven by inherent differences in our synthetic dataset compared to real-world data from electronic health records or claims data. Moving forward, we will seek to perform this study on electronic health records to validate our findings in this study.</p>
+<p>We also acknowledge that our study is not without limitations. First, this study used synthetic data that may not accurately reflect the true prevalence of the variables, nor characteristics of the study population. Future studies should seek to use non-synthetic data to validate these findings. Secondly, the prevalence of cardiac events in this study population was rare, which may have the potential to introduce statistical bias or generous significance levels. However, given the ability to interpret the odds ratio as risk ratio in rare outcomes, we pursued the use of logistic regression despite the 5.5% prevalence of cardiac events in our study population. Lastly, we observed extreme class imbalance between cardiac events in men and women, with men experiencing the majority of cardiac events.</p>
+<p>In summary, our findings suggest an association between cost and cardiac events controlling for biological and behavioral health factors further adding evidence of the influence economic factors have on health, particularly cardiovascular diseases and hospitalizations.</p>
+</section>
+<section id="generative-ai-statement" class="level2">
+<h2>Generative AI Statement</h2>
+<p>All work, graphics/visuals, writing, study design, data analysis, and work to produce this manuscript was completed without the use of generative AI technology (e.g., ChatGPT).</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id = "quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+</body>
+
+</html>

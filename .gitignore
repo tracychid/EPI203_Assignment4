@@ -3,6 +3,11 @@
 .RData
 .Ruserdata
 .positai
+.DS_Store
 
 /.quarto/
 **/*.quarto_ipynb
+
+# Document-specific cache and dependencies 
+/*_cache/
+/*_files/
