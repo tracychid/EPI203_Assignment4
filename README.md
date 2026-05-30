@@ -4,11 +4,11 @@ This manuscript studies the relationship between cost and the risk for a cardiac
 
 **PDF Manuscript**
 
-The PDF version of this manuscript can be found in \_manuscript/index.pdf
+The PDF version of this manuscript can be found in the **index.pdf** file
 
 **Reproducible Code**
 
-If you are interested in reproducing this work, all code is found in the index.qmd file. All data used for this study are publicly accessible at <https://github.com/MethodsForReproducibleHealthResearch/Assignment2>. The data are synthetic and created by the Dept. of Health Policy, Stanford University for learning purposes. All analyses were performed in RStudio (Version 2026.04.0+526). For further information, please contact the corresponding author.
+If you are interested in reproducing this work, all code is found in the **index.qmd** file. All data used for this study are publicly accessible at <https://github.com/MethodsForReproducibleHealthResearch/Assignment2>. The data are synthetic and created by the Dept. of Health Policy, Stanford University for learning purposes. All analyses were performed in RStudio (Version 2026.04.0+526). For further information, please contact the corresponding author.
 
 1.  To run the code yourself, clone this repo and open as a project in RStudio.
 2.  To generate the publishable PDF from scratch using the raw-data, run:
