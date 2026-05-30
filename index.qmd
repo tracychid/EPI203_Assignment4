@@ -11,6 +11,9 @@ bibliography: references.bib
 ```{r, load libraries}
 #| include: false
 
+# install dependencies
+renv::install(prompt = FALSE)
+
 library(tidyverse)
 library(here)
 library(tinytex)
