@@ -132,10 +132,10 @@ trend_plot <- ggplot(cardiac_df, aes(x = age, y = cost)) +
   theme (plot.caption = element_text(hjust = 0, face = "bold", size = 10))
 
 # save line graph plot to working directory
-ggsave("trend_plot.png")
+ggsave("_temp_workspace/trend_plot.png", create.dir = TRUE)
 
 # include trend plot image into manuscript
-knitr::include_graphics(here("trend_plot.png"))
+knitr::include_graphics(here("_temp_workspace/trend_plot.png"))
 ```
 
 ```{r, regression models}
@@ -191,7 +191,7 @@ coefs$coef_ci <- sprintf(
 )
 
 # create and save forrest plot as .png
-save_forrest("forrest_plot.png", function() {
+save_forrest("_temp_workspace/forrest_plot.png", function() {
   forrest(
   coefs,
   estimate = "estimate",
@@ -208,7 +208,7 @@ save_forrest("forrest_plot.png", function() {
 }, width = 5, height = 3, dpi = 300, bg = "white")
 
 # include forest plot image into manuscript
-knitr::include_graphics(here("forrest_plot.png"))
+knitr::include_graphics(here("_temp_workspace/forrest_plot.png"))
 ```
 
 ## Discussion

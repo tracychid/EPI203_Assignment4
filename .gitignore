@@ -20,3 +20,6 @@
 renv/library/
 renv/sandbox/
 renv/staging/
+
+# working directory
+/_temp_workspace/
