@@ -11,3 +11,12 @@
 # Document-specific cache and dependencies 
 /*_cache/
 /*_files/
+
+/_manuscript/*
+/_freeze/*
+.Rhistory
+.RData
+
+renv/library/
+renv/sandbox/
+renv/staging/
