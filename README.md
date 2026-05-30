@@ -4,7 +4,7 @@ This manuscript studies the relationship between cost and the risk for a cardiac
 
 **PDF Manuscript**
 
-The PDF version of this manuscript can be found in the **index.pdf** file
+The PDF version of this manuscript can be found in the **EPI203_Reproducible_Report.pdf** file
 
 **Reproducible Code**
 
